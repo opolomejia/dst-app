@@ -1,9 +1,7 @@
 import streamlit as st
-import sys
-sys.path.append('../../tools')
-from tools import *
 import pandas as pd 
 import seaborn as sns
+import os
 import matplotlib.pyplot as plt
 
 def text_mining_tab():
