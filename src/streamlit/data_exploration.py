@@ -91,8 +91,8 @@ def main():
     }
 
     # Load the DataFrame from the parquet file
-    #df = pd.read_parquet('./df.parquet.gzip')
-    df = pd.read_parquet("/mount/src/dst-app/src/streamlit/df.parquet.gzip")
+    df = pd.read_parquet("./df.parquet.gzip")
+    #df = pd.read_parquet("/mount/src/dst-app/src/streamlit/df.parquet.gzip")
     
     # Allow user to select which labels to display using a multiselect (multi choice)
     label_options = [labels[str(i)] for i in sorted(map(int, labels.keys()))]

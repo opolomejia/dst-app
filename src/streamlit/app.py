@@ -8,14 +8,14 @@ def main():
     
     # Show the sidebar with navigation and contact info
     st.sidebar.title("Navigation")
-    page = st.sidebar.radio("Choose a page:", ("Home", "Data Exploration", "Demo"))
+    page = st.sidebar.radio("Choose a page:", ("Introduction", "Data Exploration", "Demo"))
     
     st.sidebar.header("Contact Info")
     st.sidebar.write("For inquiries, please contact:")
     st.sidebar.write("Email: contact@example.com")
     st.sidebar.write("Phone: +123456789")
 
-    if page == "Home":
+    if page == "Introduction":
         home.home()
     elif page == "Data Exploration": 
         data_exploration.main()
