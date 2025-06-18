@@ -8,7 +8,7 @@ def main():
     
     # Show the sidebar with navigation and contact info
     st.sidebar.title("Navigation")
-    page = st.sidebar.radio("Choose a page:", ("Introduction", "Data Exploration", "Demo"))
+    page = st.sidebar.radio("Choose a page:", ("Introduction", "Exploration des données", "Demo"))
     
     st.sidebar.header("Contact Info")
     st.sidebar.write("For inquiries, please contact:")
@@ -17,7 +17,7 @@ def main():
 
     if page == "Introduction":
         home.home()
-    elif page == "Data Exploration": 
+    elif page == "Exploration des données": 
         data_exploration.main()
     elif page == "Demo":
         demo.demo_interface()

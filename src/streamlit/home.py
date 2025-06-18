@@ -83,6 +83,7 @@ def data():
             <li><b>14</b> : resume</li>
             <li><b>15</b> : memo</li>
         </ul>
+        </div>
         """,
         unsafe_allow_html=True
     )
