@@ -4,12 +4,7 @@ import seaborn as sns
 import os
 import matplotlib.pyplot as plt
 from cv_exploration import *
-
-def text_mining_tab():
-    st.header("Text Mining Analysis")
-    # Add text mining visualizations and analysis here
-
-    st.write("Text mining analysis content goes here")
+from text_minning_exploration import *
 
 def main():
 
@@ -37,6 +32,7 @@ def main():
     # Load the DataFrame from the parquet file
     #df = pd.read_parquet("./df.parquet.gzip")
     df = pd.read_parquet("/mount/src/dst-app/src/streamlit/df.parquet.gzip")
+    
     st.markdown(
         """
         <div style="text-align: justify;">

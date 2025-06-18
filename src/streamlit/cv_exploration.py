@@ -4,7 +4,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 def computer_vision_tab(df):
-    st.header("Exploration pour computer vision")
+    st.header("Exploration des Données - Computer Vision")
 
     st.markdown(
         """
