@@ -5,7 +5,6 @@ import demo
 
 # Main entry point of the Streamlit application
 def main():
-    st.title("Streamlit App")
     
     # Show the sidebar with navigation and contact info
     st.sidebar.title("Navigation")
@@ -21,7 +20,7 @@ def main():
     elif page == "Data Exploration": 
         data_exploration.main()
     elif page == "Demo":
-        demo.main()
+        demo.demo_interface()
 
 if __name__ == "__main__":
     main()
