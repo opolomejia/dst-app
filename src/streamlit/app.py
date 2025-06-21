@@ -2,6 +2,7 @@ import streamlit as st
 import home
 import data_exploration 
 import demo
+import modelisation
 
 # Main entry point of the Streamlit application
 def main():
@@ -20,18 +21,7 @@ def main():
     elif page == "Exploration des données": 
         data_exploration.main()
     elif page == "Modelisation":
-        st.title("Modélisation")
-        st.markdown(
-            """
-            <div style="text-align: justify;">
-            Cette section est dédiée à la modélisation des données. Vous pouvez explorer les différentes approches de modélisation 
-            et les résultats obtenus.
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-        # Placeholder for modelisation content
-        st.write("Contenu de la modélisation à venir...")
+        modelisation.main()
     elif page == "Demo":
         demo.demo_interface()
 
