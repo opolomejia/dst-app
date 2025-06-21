@@ -1,5 +1,42 @@
 import streamlit as st
 import pandas as pd
+import matplotlib.pyplot as plt
+
+
+directory = "/mount/src/dst-app/src/streamlit/"
+#directory = "./"
+
+
+def plot_training_history(model_files):
+    """
+    Plots the training history for each model and displays it in Streamlit.
+    
+    Parameters:
+    model_files (dict): A dictionary where the keys are the model names and the values are the file paths.
+    """
+    data_frames = {model: pd.read_csv(file) for model, file in model_files.items()}
+    columns_to_plot = ['accuracy', 'loss', 'val_accuracy', 'val_loss']
+
+    fig, axes = plt.subplots(2, 2, figsize=(15, 10))
+    axes = axes.flatten()
+
+    for i, col in enumerate(columns_to_plot):
+        ax = axes[i]
+        for model, df in data_frames.items():
+            if col in df.columns:
+                ax.plot(df[col], label=model)
+        ax.set_title(f'{col.capitalize()} Comparison')
+        ax.set_xlabel('Epochs')
+        ax.set_ylabel(col.capitalize())
+        ax.legend()
+        ax.grid()
+
+    plt.tight_layout()
+    st.pyplot(fig)
+
+
+
+
 def text_mining():
     st.subheader("Les modèles de classifications")
     st.markdown(
@@ -30,8 +67,7 @@ def text_mining():
         """,
         unsafe_allow_html=True
     )
-    #st.image("text_model_comp_1.png", caption="Résultats de la sélection de modèles", use_container_width=True)
-    st.image("/mount/src/dst-app/src/streamlit/text_model_comp_1.png", caption="Résultats de la sélection de modèles", use_container_width=True)
+    st.image(directory+"text_model_comp_1.png", caption="Résultats de la sélection de modèles", use_container_width=True)
 
 
     st.markdown(
@@ -58,8 +94,7 @@ def text_mining():
         unsafe_allow_html=True
     )
 
-    #st.image("text_model_final_comp.png", caption="Résultats de la sélection de modèles après prétraitement", use_container_width=True)
-    st.image("/mount/src/dst-app/src/streamlit/text_model_final_comp.png", caption="Résultats de la sélection de modèles après prétraitement", use_container_width=True)
+    st.image(directory+"text_model_final_comp.png", caption="Résultats de la sélection de modèles après prétraitement", use_container_width=True)
     
     st.subheader("Rapport de classification et matrice de confusion")
     st.markdown(
@@ -72,31 +107,228 @@ def text_mining():
         """,
         unsafe_allow_html=True
     )
-    #st.image("text_model_class_rep.png", caption="Rapport de classification du modèle LogisticRegression", use_container_width=False)
-    st.image("/mount/src/dst-app/src/streamlit/text_model_class_rep.png", caption="Rapport de classification du modèle LogisticRegression", use_container_width=False)
+    st.image(directory+"text_model_class_rep.png", caption="Rapport de classification du modèle LogisticRegression", use_container_width=False)
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    #st.image("text_model_conf_mat.png", caption="Matrice de confusion du modèle LogisticRegression", use_container_width=True)
-    st.image("/mount/src/dst-app/src/streamlit/text_model_conf_mat.png", caption="Matrice de confusion du modèle LogisticRegression", use_container_width=True)
+    st.image(directory+"text_model_conf_mat.png", caption="Matrice de confusion du modèle LogisticRegression", use_container_width=True)
 
 
-def objectives():
-    st.subheader("Objectifs")
+def computer_vision():
+    st.header("Modélisation avec réseaux des neurones convolutifs")
     st.markdown(
         """
         <div style="text-align: justify;">
-        Le projet vise à développer un système de classification automatique des documents en utilisant des techniques avancées 
-        d'intelligence artificielle. L'objectif principal est de créer un modèle capable de reconnaître et de classer différents 
-        types de documents (acte de naissance, acte de vente, etc.) avec une précision élevée. 
+        L'objectif de cette section est de présenter les résultats de différents modèles de réseaux neuronaux convolutifs 
+        entraînés sur des données open source. L'analyse comprend l'évaluation des performances des modèles, la comparaison 
+        des résultats et les observations tirées du processus d'entraînement.
         <br><br>
-        Pour atteindre cet objectif, nous allons explorer plusieurs approches, notamment l'utilisation de l'OCR pour extraire le texte 
-        des documents, le NLP pour analyser le contenu textuel et le Computer Vision pour traiter les éléments visuels (à l'aide des réseaux de neurones).
-        Une approche hybride combinant ces techniques sera également envisagée (CLIP).
+        Pour toutes les exécutions d'entraînement présentées ci-dessous, nous avons utilisé deux callbacks :
+        <ul>
+            <li>Si la <i>val_loss</i> stagne pendant 3 époques consécutives avec un delta minimum de 0.01, le taux 
+            d'apprentissage est réduit d'un facteur de 0.1, en attendant 4 époques avant de réessayer.</li>
+            <li>Si la fonction de perte ne varie pas de 1% après 5 époques, l'entraînement est arrêté.</li>
+        </ul>
         </div>
         """,
         unsafe_allow_html=True
     )
+
+    st.subheader("Test d'un réseau neuronal personnalisé basique")
+    st.markdown(
+        """
+        <div style="text-align: justify;">
+        Comme point de départ, nous testons d'abord un réseau personnalisé très basique, avec l'architecture suivante :<br><br>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+    st.image(directory+"cv_custom_model_arch.png", caption="Architecture du modèle personnalisé basique", use_container_width=False)
+
+    st.markdown(
+        """
+        <div style="text-align: justify;">
+        Ce premier modèle fonctionne mal. Ci-dessous, nous présentons l'évolution de la perte et de la précision pour le modèle :
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+    model_files = {
+    'Basic Model': directory+"models/training_history/basic_log.csv"}
+    plot_training_history(model_files)
+
+    st.markdown(
+        """
+        <div style="text-align: justify;">
+        <b>Les premiers résultats suggèrent que nous avons un problème de surapprentissage.</b> La précision pour l'ensemble d'entraînement
+        est proche de 1.0 et la perte proche de 0 ; tandis que la précision pour l'ensemble de validation est faible (0.77) et la 
+        perte élevée (2.2). Pour améliorer cela, nous essayons d'ajouter une couche de Dropout au modèle. Ci-dessous les résultats.
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+    model_files = {
+    'Basic Model': directory+"models/training_history/basic_log.csv",
+    'Basic Model + Dropout': directory+"models/training_history/basic_ia_log.csv"
+    }
+    plot_training_history(model_files)
+
+    st.markdown(
+        """
+        <div style="text-align: justify;">
+        L'ajout de la couche de dropout a amélioré les performances du modèle sur l'ensemble de validation comme prévu. 
+        Nous obtenons une précision plus élevée et une perte plus faible que pour le modèle original. 
+        <b>Nous aboutissons à un modèle ayant une précision de 0.91 pour l'ensemble d'entraînement et de 0.85 pour l'ensemble de validation.</b>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+    st.subheader("Test de transfert learning")
+
+    st.markdown(
+        """
+        <div style="text-align: justify;">
+        Nous testons maintenant une approche de Transfert Learning, en essayant d'utiliser des modèles existants 
+        (et pré-entraînés) fournis par TensorFlow. <br><br>
+        Le Transfert Learning est une technique d'apprentissage automatique où un modèle pré-entraîné, qui a été 
+        entraîné sur un grand ensemble de données, est affiné sur un ensemble de données plus petit et spécifique à 
+        une tâche. Dans le contexte des réseaux de neurones, cette approche exploite les capacités d'extraction de 
+        caractéristiques des architectures profondes entraînées sur de vastes ensembles de données, réduisant ainsi 
+        le besoin de grandes quantités de données étiquetées et de ressources computationnelles. Pour notre projet, 
+        <b>nous avons testé les architectures suivantes : Inception V3, ResNet50 V2 et MobileNet V2.</b>
+        <br><br>
+        Pour ces tests, nous avons utilisé trois approches différentes :
+        <ol>
+            <li>Gel des paramètres pré-entraînés et entraînement uniquement de la couche de prédiction.</li>
+            <li>Réentraînement de l'architecture entière à partir de zéro (initialisation aléatoire).</li>
+            <li>Réentraînement de l'architecture en utilisant les poids pré-entraînés comme point de départ.</li>
+        </ol>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+    training_types = [
+        "Entraînement uniquement de la couche de prédiction",
+        "Entraînement complet (initialisation aléatoire)",
+        "Fine-tuning (poids pré-entraînés, gel partiel)"        
+    ]
+
+    selected_training = st.selectbox(
+        "Choisissez le type d'entraînement à afficher :",
+        training_types
+    )
+
+    if selected_training == "Entraînement uniquement de la couche de prédiction":
+        st.markdown(
+            """
+            <div style="text-align: justify;">
+            Ci-dessous, nous présentons l'évolution de la précision (accuracy) et 
+            de la perte (loss) pour chaque architecture durant le processus d'entraînement : <br><br>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+        model_files = {
+        'InceptionV3': directory+"models/training_history/freeze_transfert_learn_inception_v3_log.csv",
+        'ResNet50V2': directory+"models/training_history/freeze_transfert_learn_resnet50v2_log.csv",
+        'MobileNetV2': directory+"models/training_history/freeze_transfert_learn_mobilenetv2_1.00_224_log.csv",
+        'Custom': directory+"models/training_history/basic_ia_log.csv"
+        }
+        plot_training_history(model_files)
+
+        st.markdown(
+            """
+            <div style="text-align: justify;">
+            <b>Aucun des modèles standards ne semble capable de surpasser notre modèle initiale, 
+            que ce soit en termes de précision ou de perte</b>.
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+    elif selected_training == "Entraînement complet (initialisation aléatoire)":
+        st.markdown(
+            """
+            <div style="text-align: justify;">
+            Pour le deuxième test, nous avons utilisé l'architecture standard comme point de départ et entraîné 
+            tous les paramètres à partir de zéro (initialisation aléatoire). Cette approche consomme plus de ressources 
+            et nécessite plus de temps d'entraînement comparé à l'utilisation de paramètres pré-entraînés.<br>
+            Ci-dessous, nous présentons l'évolution de la précision (accuracy) et de la perte (loss) pour chaque 
+            architecture durant le processus d'entraînement.
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+        model_files = {
+        'InceptionV3': directory+"models/training_history/inception_v3_log.csv",
+        'ResNet50V2': directory+"models/training_history/resnet_log.csv",
+        'MobileNetV2': directory+"models/training_history/mobilenetv2_1.00_300_log.csv",
+        'Custom': directory+"models/training_history/basic_ia_log.csv"
+        }
+        plot_training_history(model_files)
+
+        st.markdown(
+            """
+            <div style="text-align: justify;">
+            Pendant les 10 premières époques, seul le modèle InceptionV3 semble obtenir de meilleures 
+            performances que l'architecture de base avec dropout. Cependant, après 10 époques, l'architecture 
+            de base est surpassée par toutes les architectures standards. 
+            <b>Le modèle InceptionV3 semble être le meilleur en termes de précision et de perte pour l'ensemble de validation.</b>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+    elif selected_training == "Fine-tuning (poids pré-entraînés, gel partiel)" :
+        st.markdown(
+            """
+            <div style="text-align: justify;">
+            Pour ce troisième test, nous entraînons à nouveau les architectures standards, mais cette fois-ci, 
+            nous utilisons les valeurs des paramètres pré-entraînés comme point de départ.
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+        model_files = {
+        'InceptionV3': directory+"models/training_history/transfert_learn_inception_v3_log.csv",
+        'ResNet50V2': directory+"models/training_history/transfert_learn_resnet50v2_log.csv",
+        'MobileNetV2': directory+"models/training_history/transfert_learn_mobilenetv2_1.00_224_log.csv",
+        'Custom': directory+"models/training_history/basic_ia_log.csv"
+        }
+
+        plot_training_history(model_files)
+
+        st.markdown(
+            """
+            <div style="text-align: justify;">
+            <b>Une fois de plus, le meilleur modèle semble être InceptionV3, offrant la plus haute précision pour 
+            l'ensemble de validation (0.91) et la deuxième meilleure perte (0.44).</b>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+
+    st.subheader("Rapport de classification et matrice de confusion")
+
+    st.markdown(
+        """
+        <div style="text-align: justify;">
+        Dans la suite, nous présentons uniquement le rapport de classification et la matrice de confusion du modèle 
+        <b>InceptionV3</b> avec le fine-tuning, car il s'agit du modèle ayant obtenu les meilleurs résultats lors de nos expérimentations.
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+    st.image(directory+"cv_class_rep.png", caption="Rapport de classification du modèle InceptionV3", use_container_width=False)
+    st.markdown("<br>", unsafe_allow_html=True)
+    st.image(directory+"cv_conf_matrix.png", caption="Matrice de confusion du modèle InceptionV3", use_container_width=True)
+
 
 def data():
     st.subheader("Données d'entraînement")
@@ -144,7 +376,7 @@ def main():
         text_mining()
 
     with cv_tab:
-        objectives()
+        computer_vision()
     
     with clip_tab:
         data()

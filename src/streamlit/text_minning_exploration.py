@@ -7,6 +7,10 @@ import re
 import numpy as np
 import random
 from wordcloud import WordCloud
+
+directory = "/mount/src/dst-app/src/streamlit/"
+#directory = "./"
+
 #Fonction pour supprimer les séquences indésirables
 def clean_special_chars_and_numbers(text):
     #re.sub(modèle, remplacement, chaîne)
@@ -25,7 +29,7 @@ def remove_punctuation(text):
 def text_mining_tab():
     st.header("Exploration des Données - Text Mining")
     #df = pd.read_parquet("./df.parquetv.gzip")
-    df = pd.read_parquet("/mount/src/dst-app/src/streamlit/df.parquetv.gzip")
+    df = pd.read_parquet(directory+"df.parquetv.gzip")
 
     labels = {
         "0": "letter",

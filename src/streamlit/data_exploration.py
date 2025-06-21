@@ -6,6 +6,9 @@ import matplotlib.pyplot as plt
 from cv_exploration import *
 from text_minning_exploration import *
 
+directory = "/mount/src/dst-app/src/streamlit/"
+#directory = "./"
+
 def main():
 
     st.title("Exploration des données")
@@ -31,7 +34,7 @@ def main():
 
     # Load the DataFrame from the parquet file
     #df = pd.read_parquet("./df.parquet.gzip")
-    df = pd.read_parquet("/mount/src/dst-app/src/streamlit/df.parquet.gzip")
+    df = pd.read_parquet(directory+"df.parquet.gzip")
     
     st.markdown(
         """
