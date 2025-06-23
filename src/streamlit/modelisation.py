@@ -34,9 +34,6 @@ def plot_training_history(model_files):
     plt.tight_layout()
     st.pyplot(fig)
 
-
-
-
 def text_mining():
     st.subheader("Les modèles de classifications")
     st.markdown(
@@ -112,7 +109,6 @@ def text_mining():
     st.markdown("<br>", unsafe_allow_html=True)
 
     st.image(directory+"text_model_conf_mat.png", caption="Matrice de confusion du modèle LogisticRegression", use_container_width=True)
-
 
 def computer_vision():
     st.header("Modélisation avec réseaux des neurones convolutifs")
@@ -329,45 +325,123 @@ def computer_vision():
     st.markdown("<br>", unsafe_allow_html=True)
     st.image(directory+"cv_conf_matrix.png", caption="Matrice de confusion du modèle InceptionV3", use_container_width=True)
 
-
-def data():
-    st.subheader("Données d'entraînement")
+def clip():
+    st.subheader("Modeles de classification avec CLIP")
     st.markdown(
         """
         <div style="text-align: justify;">
-        Les données d'entrainement proviennent du projet public de Adam W. Harley
-        <a href="https://adamharley.com/rvl-cdip/" target="_blank">RVL-CDIP 
-        (Ryerson Vision Lab Complex Document Information Processing)</a>.
-        <br><br>
-        Le jeu de données comprend 400 000 images en niveaux de gris réparties en 16 classes, 
-        avec 25 000 images par classe. Il contient 320 000 images d'entraînement, 40 000 images 
-        de validation et 40 000 images de test. Les images sont dimensionnées de manière à ce que 
-        leur plus grande dimension ne dépasse pas 1000 pixels.
-        <br><br>
-        Les classes de documents présentes dans ce jeu de données sont les suivantes :
-        <ul>
-            <li><b>0</b> : letter</li>
-            <li><b>1</b> : form</li>
-            <li><b>2</b> : email</li>
-            <li><b>3</b> : handwritten</li>
-            <li><b>4</b> : advertisement</li>
-            <li><b>5</b> : scientific report</li>
-            <li><b>6</b> : scientific publication</li>
-            <li><b>7</b> : specification</li>
-            <li><b>8</b> : file folder</li>
-            <li><b>9</b> : news article</li>
-            <li><b>10</b> : budget</li>
-            <li><b>11</b> : invoice</li>
-            <li><b>12</b> : présentation</li>
-            <li><b>13</b> : questionnaire</li>
-            <li><b>14</b> : resume</li>
-            <li><b>15</b> : memo</li>
-        </ul>
+        Le dernier modèle de classification a été évalué à l’aide de CLIP (Contrastive Language-Image Pre-Training)
+        d’OpenAI, un réseau neuronal entraîné sur des paires image-texte. Les résultats obtenus, présentés ci-dessous, 
+        ne surpassent guère ceux des modèles présentés avant. Étant donné la précision obtenue, nous avons choisi de ne
+        pas poursuivre les tests sur les ensembles de validation. <b>Pour les tests nous avons chargé le modèle “Vit-B/32”</b>.
         </div>
         """,
         unsafe_allow_html=True
     )
 
+    clip_options = [
+        "Test 1 : Images et textes bruts",
+        "Test 2 : Redimensionnement des images",
+        "Test 3 : Redimensionnement + contraste",
+        "Test 4 : Redimensionnement + contraste + contour"
+    ]
+    selected_clip_option = st.selectbox("Choisissez le test CLIP à afficher :", clip_options)
+
+    if selected_clip_option == "Test 1 : Images et textes bruts":
+        st.subheader("Entraînement sur les images et textes brutes")
+        st.markdown(
+            """
+            <div style="text-align: justify;">
+            Nous avons commencé par entraîner le modèle sur les images et les textes bruts, sans aucun prétraitement. 
+            Les résultats sont présentés ci-dessous :
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+        st.image(directory+"clip_distr_classes_brut.png", caption="Distribution des classes réelles et prédites sans prétraitement", 
+                use_container_width=True)
+
+        st.markdown(
+            """
+            <div style="text-align: justify;">
+            Le modèle a obtenu une <b>précision de 0.08 </b> sur l'ensemble d'entraînement.
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+    elif selected_clip_option == "Test 2 : Redimensionnement des images":
+        st.subheader("Entraînement sur les images et textes en redimensionnant")
+        st.markdown(
+            """
+            <div style="text-align: justify;">
+            Pour ce second test, nous avons réduit l’échantillon à 15 000 afin d’obtenir un retour rapide, sachant que l'entraînement 
+            du modèle précédent a duré 48 heures. De plus, nous avons redimensionné les images en 256 × 256.
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+        st.image(directory+"clip_distr_classes_resize.png", caption="Distribution des classes réelles et prédites avec redimensionnement", 
+                use_container_width=True)
+
+        st.markdown(
+            """
+            <div style="text-align: justify;">
+            Le modèle a obtenu une <b>précision de 0.08 </b> sur l'ensemble d'entraînement.
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+    elif selected_clip_option == "Test 3 : Redimensionnement + contraste":
+        st.subheader("Entraînement sur les images et textes en redimensionnant et avec constraste")
+
+        st.markdown(
+            """
+            <div style="text-align: justify;">
+            Pour ce troisième test, nous avons appliqué un redimensionnement des images en 256 × 256 et un calibrage sur le contraste à 2.0. 
+            Les résultats sont présentés ci-dessous :
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+        st.image(directory+"clip_distr_classes_resize_contrast.png", 
+                 caption="Distribution des classes réelles et prédites avec redimensionnement et contraste",
+                 use_container_width=True)
+
+        st.markdown(
+            """
+            <div style="text-align: justify;">
+            Le modèle a obtenu une <b>précision de 0.08 </b> sur l'ensemble d'entraînement.
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+    elif selected_clip_option == "Test 4 : Redimensionnement + contraste + contour":
+        st.subheader("Entraînement sur les images et textes en redimensionnant, avec contraste et contour")
+
+        st.markdown(
+            """
+            <div style="text-align: justify;">
+            Pour ce quatrième test, nous avons appliqué un redimensionnement des images en 256 × 256, un calibrage sur le contraste
+            à 1.5 et en ajoutant des filtres sur les contours,  ci-dessous les résultats obtenus:
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+        st.image(directory+"clip_distr_classes_resize_contrast_contour.png", 
+                 caption="Distribution des classes réelles et prédites avec redimensionnement, contraste et contour",
+                 use_container_width=True)
+
+        st.markdown(
+            """
+            <div style="text-align: justify;">
+            Le modèle a obtenu une <b>précision de 0.08 </b> sur l'ensemble d'entraînement.
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+        
 def main():
     st.title("Modelisation")
     # Create tabs
@@ -379,7 +453,7 @@ def main():
         computer_vision()
     
     with clip_tab:
-        data()
+        clip()
 
     
 if __name__ == "__main__":
