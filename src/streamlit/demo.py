@@ -78,21 +78,23 @@ def demo_interface():
 cv_model = load_cv_model()
 text_model = load_text_model()
 
+#Tensorflow sorted the numerical labels in alphabetical order (as strings)
+#so we need to map them to the original labels
 document_type = {
-        "0": "letter",
-        "1": "form",
-        "2": "email",
-        "3": "handwritten",
-        "4": "advertisement",
-        "5": "scientific report",
-        "6": "scientific publication",
-        "7": "specification",
-        "8": "file folder",
-        "9": "news article",
-        "10": "budget",
-        "11": "invoice",
-        "12": "presentation",
-        "13": "questionnaire",
-        "14": "resume",
-        "15": "memo"
+        "0": "Letter",
+        "1": "Form",
+        "2": "Budget",
+        "3": "Invoice",
+        "4": "Presentation",
+        "5": "Questionnaire",
+        "6": "Resume",
+        "7": "Memo",
+        "8": "Email",
+        "9": "Handwritten",
+        "10": "Advertisement",
+        "11": "Scientific report",
+        "12": "Scientific publication",
+        "13": "Specification",
+        "14": "File folder",
+        "15": "News article"
     }
