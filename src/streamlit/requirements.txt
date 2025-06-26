@@ -5,3 +5,5 @@ matplotlib
 scikit-learn
 seaborn
 wordcloud
+joblib
+tensorflow == 2.19.0
