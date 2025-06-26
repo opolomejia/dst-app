@@ -1,2 +1,5 @@
+model/*.joblib filter=lfs diff=lfs merge=lfs -text
 model/*.h5 filter=lfs diff=lfs merge=lfs -text
 *.h5 filter=lfs diff=lfs merge=lfs -text
+*.joblib filter=lfs diff=lfs merge=lfs -text
+src/streamlit/models/logistic_regression_model.joblib filter=lfs diff=lfs merge=lfs -text
