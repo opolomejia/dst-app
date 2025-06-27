@@ -10,7 +10,7 @@ def main():
     # Show the sidebar with navigation and contact info
     st.sidebar.title("Classification de Documents")
     page = st.sidebar.radio("Menu", ("Introduction", "Exploration des données", 
-                                              "Modelisation", "Démonstrateur"))
+                                              "Modelisation", "Démonstration"))
     
 
     st.sidebar.header("Equipe")
@@ -50,7 +50,7 @@ def main():
         data_exploration.main()
     elif page == "Modelisation":
         modelisation.main()
-    elif page == "Démonstrateur":
+    elif page == "Démonstration":
         demo.demo_interface()
 
 if __name__ == "__main__":
