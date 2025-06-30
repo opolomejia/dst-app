@@ -190,19 +190,15 @@ def text_mining_tab():
     df_clean['label'] = df_clean['label'].astype(str).map(labels)
 
     #Convertir les mots en minuscules
-    df['easyocr_text_cleaned'] = df['easyocr_text'].apply(lambda x: ' '.join(x).lower() if isinstance(x, list) else str(x).lower())
     df_clean['easyocr_text_cleaned'] = df_clean['easyocr_text'].apply(lambda x: ' '.join(x).lower() if isinstance(x, list) else str(x).lower())
     
     #Appliquer la suppression de la ponctuation
-    df['easyocr_text_cleaned'] = df['easyocr_text_cleaned'].apply(remove_punctuation)
     df_clean['easyocr_text_cleaned'] = df_clean['easyocr_text_cleaned'].apply(remove_punctuation)
 
     #espaces multiples entre les mots et des espaces au début et à la fin.
-    df['easyocr_text_cleaned'] = df['easyocr_text_cleaned'].apply(remove_extra_spaces)
     df_clean['easyocr_text_cleaned'] = df_clean['easyocr_text_cleaned'].apply(remove_extra_spaces)
 
     #Nettoyer les données
-    df['easyocr_text_cleaned'] = df['easyocr_text_cleaned'].apply(clean_special_chars_and_numbers)
     df_clean['easyocr_text_cleaned'] = df_clean['easyocr_text_cleaned'].apply(clean_special_chars_and_numbers)
 
     # Create tabs
@@ -218,7 +214,7 @@ def text_mining_tab():
         df_wc = df[df['label'] == selected_label_wc]
 
         # Concaténer tous les textes en une seule chaîne
-        all_text = ' '.join(df_wc['easyocr_text_cleaned'].astype(str))
+        all_text = ' '.join(df_wc['easyocr_text'].astype(str))
 
         # Générer le nuage de mots
         wordcloud = WordCloud(width=800, height=400, background_color='white', collocations=False).generate(all_text)
