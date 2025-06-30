@@ -3,8 +3,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 
-directory = "/mount/src/dst-app/src/streamlit/"
-#directory = "./"
+#directory = "/mount/src/dst-app/src/streamlit/"
+directory = "./"
 
 
 def plot_training_history(model_files):

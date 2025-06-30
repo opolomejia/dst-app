@@ -8,8 +8,8 @@ import numpy as np
 import random
 from wordcloud import WordCloud
 
-directory = "/mount/src/dst-app/src/streamlit/"
-#directory = "./"
+#directory = "/mount/src/dst-app/src/streamlit/"
+directory = "./"
 
 #Fonction pour supprimer les séquences indésirables
 def clean_special_chars_and_numbers(text):

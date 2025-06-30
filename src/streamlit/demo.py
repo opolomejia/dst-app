@@ -23,8 +23,8 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 # Suppress TensorFlow warnings
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'  # Suppress INFO and WARNING logs
 warnings.filterwarnings('ignore', category=UserWarning, module='tensorflow')
-directory = "/mount/src/dst-app/src/streamlit/"
-#directory = "./"
+#directory = "/mount/src/dst-app/src/streamlit/"
+directory = "./"
 
 def load_cv_model():
     model_path = directory+"models/transfert_learn_inception_v3_final.h5"

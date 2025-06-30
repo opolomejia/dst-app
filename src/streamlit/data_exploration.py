@@ -6,8 +6,8 @@ import matplotlib.pyplot as plt
 from cv_exploration import *
 from text_minning_exploration import *
 
-directory = "/mount/src/dst-app/src/streamlit/"
-#directory = "./"
+#directory = "/mount/src/dst-app/src/streamlit/"
+directory = "./"
 
 def main():
 
