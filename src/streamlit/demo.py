@@ -73,7 +73,7 @@ def demo_interface():
                 img_array = tf.keras.preprocessing.image.img_to_array(img)
                 img_array = tf.expand_dims(img_array, 0)
                 st.subheader("Prédictions avec Computer Vision")
-                st.text("Modele Inception V3 - Transfer Learning")
+                st.text("Inception V3 - Transfer Learning")
                 predictions = cv_model.predict(img_array)
                 top_3_indices = np.argsort(predictions[0])[::-1][:3]
                 top_3_probs = predictions[0][top_3_indices]
@@ -92,7 +92,7 @@ def demo_interface():
 
             with text_predict:
                 st.subheader("Prédictions avec Text Mining")
-                st.text("Modele de régression logistique - TF-IDF")
+                st.text("Régression logistique - TF-IDF")
                 # Convert uploaded file to format EasyOCR can handle
                 pil_image = Image.open(uploaded_file)
                 img_array = np.array(pil_image)
