@@ -89,7 +89,7 @@ def data():
     )
 
 def home():
-    st.title("Projet: Classification de Documents")
+    st.title("Introduction")
     # Create tabs
     context_tab, objectives_tab, data_tab = st.tabs(["Contexte", "Objectifs", "Données d'entraînement"])
     with context_tab:

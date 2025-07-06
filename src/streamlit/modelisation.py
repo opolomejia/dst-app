@@ -445,7 +445,7 @@ def clip():
 def main():
     st.title("Modelisation")
     # Create tabs
-    text_mining_tab, cv_tab, clip_tab = st.tabs(["Text Mining", "Computer Vision", "CLIP"])
+    text_mining_tab, cv_tab, clip_tab = st.tabs(["Classification", "Réseaux de Neurones", "CLIP"])
     with text_mining_tab:
         text_mining()
 
